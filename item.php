@@ -13,10 +13,11 @@ if(isset($_GET['code'])) {
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 10);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
     curl_setopt($curl, CURLOPT_USERAGENT, 'AlimentosApp/1.0 (xampp-local-test)');
-    
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
+
     $result = curl_exec($curl);
     $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     $curl_error = curl_error($curl);

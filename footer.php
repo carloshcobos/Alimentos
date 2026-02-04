@@ -25,20 +25,23 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    <script>
-        // Animación suave al hacer hover en las filas de la tabla
-        $(document).ready(function() {
-            $('.table-hover tbody tr').hover(
-                function() {
-                    $(this).css('transform', 'scale(1.01)');
-                    $(this).css('transition', 'all 0.2s ease');
-                },
-                function() {
-                    $(this).css('transform', 'scale(1)');
-                }
-            );
-        });
-    </script>
+<script>
+    // hover en table rows
+    $(document).ready(function() {
+        $('.table-hover tbody tr').css('transition', 'transform 0.2s ease');
+
+        $('.table-hover tbody tr').hover(
+            function() {
+                $(this).css('transform', 'scale(1.01)');
+            },
+            function() {
+                $(this).css('transform', 'scale(1)');
+            }
+        );
+    });
+</script>
+
+</script>
+
 </body>
 </html>

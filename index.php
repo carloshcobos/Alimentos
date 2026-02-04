@@ -5,6 +5,7 @@
       <p class="lead">Base de Datos de Open Food Facts - Productos Españoles</p>
       <p class="text-muted">Busca información nutricional de más de 3 millones de productos</p>
       
+      <!-- Formulario de búsqueda -->
       <form class="mt-4" method="POST">
           <div class="row justify-content-center">
               <div class="col-md-8">
@@ -73,16 +74,17 @@ if (isset($_POST['submit'])):
            'fields' => 'code,product_name,brands,nutriscore_grade,nova_group,image_small_url,nutriments,categories,quantity'
        );
        
-       $url .= '?' . http_build_query($params);
+       $url .= '?' . http_build_query($params); // Agregar parámetros a la URL
        
        // Realizar petición con cURL
        $curl = curl_init();
        curl_setopt($curl, CURLOPT_URL, $url);
        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-       curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+       curl_setopt($curl, CURLOPT_TIMEOUT, 10);
        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
        curl_setopt($curl, CURLOPT_USERAGENT, 'AlimentosApp/1.0 (xampp-local-test)');
+       curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
        
        $result = curl_exec($curl);
        $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);

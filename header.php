@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base de Datos BEDCA - Composición de Alimentos</title>
+    <title>Buscador Alimentos</title>
     
     <!-- Bootstrap 4 CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -40,7 +40,16 @@
             border-radius: 10px 10px 0 0 !important;
             font-weight: bold;
         }
-        
+
+        .card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px rgba(0,0,0,.15);
+        }
+
         .table {
             background-color: white;
         }
@@ -119,4 +128,5 @@ function check_selected_option($field_name, $value) {
         echo 'selected';
     }
 }
+
 ?>
