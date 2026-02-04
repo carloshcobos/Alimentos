@@ -1,12 +1,12 @@
-# 🍎 Buscador de Alimentos - Open Food Facts
+# Buscador de Alimentos - Open Food Facts
 
-## ✅ Solución Final Funcional
+## Solución Final Funcional
 
 Esta aplicación usa **Open Food Facts**, la base de datos colaborativa de alimentos más grande del mundo con más de **3 millones de productos**, incluyendo miles de productos españoles.
 
 ---
 
-## 🎯 Características
+## Características
 
 ✅ **API funcionando 100%** - Probada y verificada  
 ✅ **Productos españoles** - Miles de productos del mercado español  
@@ -18,7 +18,7 @@ Esta aplicación usa **Open Food Facts**, la base de datos colaborativa de alime
 
 ---
 
-## 📦 Instalación (3 pasos)
+## Instalación (3 pasos)
 
 ### Paso 1: Copiar archivos
 
@@ -46,7 +46,7 @@ C:/xampp/htdocs/alimentos/
 
 ---
 
-## 🔍 Cómo Buscar
+## Cómo Buscar
 
 ### Ejemplos de búsquedas que funcionan bien:
 
@@ -57,14 +57,14 @@ C:/xampp/htdocs/alimentos/
 
 ### Tips para mejores resultados:
 
-- 🎯 Usa nombres simples y genéricos
-- 🏷️ Busca por marcas conocidas
-- 🔢 Puedes buscar por código de barras
-- 📦 Los productos más populares tienen más información
+- Usa nombres simples y genéricos
+- Busca por marcas conocidas
+- Puedes buscar por código de barras
+- Los productos más populares tienen más información
 
 ---
 
-## 📊 Información Disponible
+## Información Disponible
 
 ### Datos nutricionales:
 - ✅ Energía (kcal)
@@ -77,18 +77,18 @@ C:/xampp/htdocs/alimentos/
 - ✅ Minerales (calcio, hierro cuando disponibles)
 
 ### Información adicional:
-- 📷 Foto del producto
-- 📝 Lista de ingredientes
-- ⚠️ Alérgenos
-- 🏷️ Etiquetas (Bio, Sin gluten, Vegano, etc.)
-- 📊 Nutri-Score (A-E)
-- 🏭 Clasificación NOVA (procesamiento)
-- 🔖 Categorías
-- 📦 Cantidad/Peso
+- Foto del producto
+- Lista de ingredientes
+- Alérgenos
+- Etiquetas (Bio, Sin gluten, Vegano, etc.)
+- Nutri-Score (A-E)
+- Clasificación NOVA (procesamiento)
+- Categorías
+- Cantidad/Peso
 
 ---
 
-## 🌟 Qué es Nutri-Score
+## Qué es Nutri-Score
 
 **Nutri-Score** es un sistema de etiquetado nutricional de 5 colores:
 
@@ -100,7 +100,7 @@ C:/xampp/htdocs/alimentos/
 
 ---
 
-## 🏭 Qué es NOVA
+## Qué es NOVA
 
 **NOVA** clasifica alimentos según su nivel de procesamiento:
 
@@ -111,7 +111,7 @@ C:/xampp/htdocs/alimentos/
 
 ---
 
-## 🛠️ Solución de Problemas
+## Solución de Problemas
 
 ### Error: "No se encontraron productos"
 
@@ -151,7 +151,7 @@ C:/xampp/htdocs/alimentos/
 
 ---
 
-## 🎨 Personalización
+## Personalización
 
 ### Cambiar número de resultados por defecto
 
@@ -172,7 +172,7 @@ Edita `header.php` en la sección `<style>` para personalizar:
 
 ---
 
-## 📈 Estadísticas de Open Food Facts
+## Estadísticas de Open Food Facts
 
 - **3+ millones** de productos
 - **200+ países**
@@ -183,7 +183,7 @@ Edita `header.php` en la sección `<style>` para personalizar:
 
 ---
 
-## 🌐 Sobre Open Food Facts
+## Sobre Open Food Facts
 
 **Open Food Facts** es un proyecto colaborativo sin ánimo de lucro que recopila información sobre productos alimenticios de todo el mundo.
 
@@ -202,25 +202,7 @@ Edita `header.php` en la sección `<style>` para personalizar:
 
 ---
 
-## 🔄 Comparativa con BEDCA
-
-| Característica | Open Food Facts | BEDCA |
-|----------------|-----------------|-------|
-| API funcionando | ✅ Sí | ❌ No (cerrada) |
-| Productos comerciales | ✅ Sí (marcas reales) | ❌ No (alimentos genéricos) |
-| Fotos de productos | ✅ Sí | ❌ No |
-| Código de barras | ✅ Sí | ❌ No |
-| Base de datos | 3M+ productos | ~1,000 alimentos |
-| Actualización | Diaria | Ocasional |
-| Idioma | Multiidioma | Solo español |
-| Costo | 💚 Gratis | 💚 Gratis |
-| Tipo de dato | Productos reales | Datos científicos |
-
-**Conclusión**: Open Food Facts es mejor para productos comerciales reales del supermercado. BEDCA era mejor para datos científicos de alimentos genéricos, pero su API ya no está disponible.
-
----
-
-## 🚀 Próximos Pasos
+## Próximos Pasos
 
 Una vez que tengas todo funcionando, puedes:
 
@@ -248,7 +230,7 @@ Una vez que tengas todo funcionando, puedes:
 
 ---
 
-## 📞 Soporte
+## Soporte
 
 ### Problemas con la aplicación:
 - Revisa esta guía completa
@@ -262,7 +244,7 @@ Una vez que tengas todo funcionando, puedes:
 
 ---
 
-## 📝 Licencia
+## Licencia
 
 - **Código de esta aplicación**: Libre uso personal y educativo
 - **Datos de Open Food Facts**: Open Database License
@@ -270,7 +252,7 @@ Una vez que tengas todo funcionando, puedes:
 
 ---
 
-## 🎉 ¡Listo!
+## ¡Listo!
 
 Tu buscador de alimentos está **completamente funcional** usando la API de Open Food Facts.
 
@@ -283,4 +265,4 @@ Tu buscador de alimentos está **completamente funcional** usando la API de Open
 - ✅ No requiere configuración de base de datos
 - ✅ Datos siempre actualizados
 
-¡Disfruta tu aplicación! 🎊
+¡Disfruta tu aplicación!
