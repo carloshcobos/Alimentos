@@ -45,12 +45,23 @@ if(isset($_GET['code'])) {
             $image_url = isset($product['image_url']) ? $product['image_url'] : '';
             $nutriscore = isset($product['nutriscore_grade']) ? strtoupper($product['nutriscore_grade']) : '';
             $nova = isset($product['nova_group']) ? $product['nova_group'] : '';
+            $nova_group = isset($product['nova_groups_tags'][0]) ? $product['nova_groups_tags'][0] : '';
             $nutriments = isset($product['nutriments']) ? $product['nutriments'] : array();
             $ingredients_text = isset($product['ingredients_text_es']) ? $product['ingredients_text_es'] : 
                                (isset($product['ingredients_text']) ? $product['ingredients_text'] : '');
             $allergens = isset($product['allergens']) ? $product['allergens'] : '';
             $labels = isset($product['labels']) ? $product['labels'] : '';
-            
+        
+            // Función para obtener descripción NOVA
+            function novaDescription($nova) {
+                return [
+                    1 => 'Alimento sin procesar o mínimamente procesado',
+                    2 => 'Ingredientes procesados',
+                    3 => 'Alimento procesados',
+                    4 => 'Alimento ultraprocesado'
+                ][$nova] ?? '';
+            }
+
             ?>
             
             <!-- Encabezado del producto -->
@@ -102,6 +113,9 @@ if(isset($_GET['code'])) {
                                     <span class="badge badge-secondary badge-lg">
                                         <i class="fas fa-industry"></i> NOVA: <?php echo $nova; ?>
                                     </span>
+                                    <span class="mt-1 text-danger font-weight-bold">
+                                        <?php echo novaDescription($nova) ?> 
+                                    </span>
                                 <?php endif; ?>
                             </div>
                             
@@ -118,7 +132,7 @@ if(isset($_GET['code'])) {
                         </div>
                     </div>
                     
-                    <a href="index_openfoodfacts.php" class="btn btn-secondary mt-3">
+                    <a href="index.php" class="btn btn-secondary mt-3">
                         <i class="fas fa-arrow-left"></i> Volver a la búsqueda
                     </a>
                     
@@ -312,7 +326,7 @@ if(isset($_GET['code'])) {
             <?php endif; ?>
             
             <div class="text-center mb-4">
-                <a href="index_openfoodfacts.php" class="btn btn-lg btn-primary">
+                <a href="index.php" class="btn btn-lg btn-primary">
                     <i class="fas fa-arrow-left"></i> Volver a la búsqueda
                 </a>
                 
