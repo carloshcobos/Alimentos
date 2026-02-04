@@ -1,4 +1,22 @@
-<?php include_once('header.php'); ?>
+<?php
+  session_start();
+  include_once('header.php');
+
+  // Si llega POST, actualiza sesión
+  if (!empty($_POST['searchTerm'])) {
+      $_SESSION['last_search'] = trim($_POST['searchTerm']);
+      $_SESSION['last_pageSize'] = isset($_POST['pageSize']) ? (int)$_POST['pageSize'] : 20;
+      $_SESSION['last_sort'] = $_POST['sort'] ?? 'popularity';
+  }
+
+  // Variables “finales” (POST o sesión)
+  $search_term = $_POST['searchTerm'] ?? ($_SESSION['last_search'] ?? '');
+  $search_term = trim($search_term);
+
+  $page_size = isset($_POST['pageSize']) ? (int)$_POST['pageSize'] : ($_SESSION['last_pageSize'] ?? 20);
+  $sort_by   = $_POST['sort'] ?? ($_SESSION['last_sort'] ?? 'popularity');
+?>
+
 <div class="container mb-5">
    <div class="jumbotron mt-3 text-center">
       <h1> Buscador de Alimentos</h1>
@@ -11,7 +29,7 @@
               <div class="col-md-8">
                   <div class="input-group input-group-lg mb-3">
                       <input class="form-control"
-                             value="<?php if(isset($_POST['searchTerm'])){echo htmlspecialchars($_POST['searchTerm']);} ?>"
+                             value="<?php echo htmlspecialchars($search_term); ?>"
                              name="searchTerm" 
                              type="text" 
                              placeholder="Ejemplo: queso, yogur, coca-cola, nutella..." 
@@ -28,16 +46,16 @@
           <div class="row justify-content-center">
               <div class="col-md-3">
                   <select name="pageSize" class="form-control">
-                      <option value="20" <?php if(isset($_POST['pageSize']) && $_POST['pageSize'] == '20') echo 'selected'; ?>>20 resultados</option>
-                      <option value="50" <?php if(isset($_POST['pageSize']) && $_POST['pageSize'] == '50') echo 'selected'; ?>>50 resultados</option>
-                      <option value="100" <?php if(isset($_POST['pageSize']) && $_POST['pageSize'] == '100') echo 'selected'; ?>>100 resultados</option>
+                    <option value="20"  <?php if($page_size == 20)  echo 'selected'; ?>>20 resultados</option>
+                    <option value="50"  <?php if($page_size == 50)  echo 'selected'; ?>>50 resultados</option>
+                    <option value="100" <?php if($page_size == 100) echo 'selected'; ?>>100 resultados</option>
                   </select>
               </div>
               
               <div class="col-md-3">
                   <select name="sort" class="form-control">
-                      <option value="popularity" <?php if(isset($_POST['sort']) && $_POST['sort'] == 'popularity') echo 'selected'; ?>>Más populares</option>
-                      <option value="product_name" <?php if(isset($_POST['sort']) && $_POST['sort'] == 'product_name') echo 'selected'; ?>>Nombre A-Z</option>
+                    <option value="popularity"   <?php if($sort_by == 'popularity') echo 'selected'; ?>>Más populares</option>
+                    <option value="product_name" <?php if($sort_by == 'product_name') echo 'selected'; ?>>Nombre A-Z</option>
                   </select>
               </div>
           </div>
@@ -53,66 +71,64 @@
   </div>
 
 <?php
-if (isset($_POST['submit'])):
-   $search_term = isset($_POST['searchTerm']) ? trim($_POST['searchTerm']) : "";
-   
-   if (empty($search_term)) {
-       echo "<div class='alert alert-warning'><i class='fas fa-exclamation-triangle'></i> Por favor, ingresa un término de búsqueda.</div>";
-   } else {
-       $page_size = isset($_POST['pageSize']) ? intval($_POST['pageSize']) : 20;
-       $sort_by = isset($_POST['sort']) ? $_POST['sort'] : 'popularity';
-       
-       // Construir URL de la API de Open Food Facts (versión española)
-       $url = "https://es.openfoodfacts.org/cgi/search.pl";
-       $params = array(
-           'search_terms' => $search_term,
-           'search_simple' => 1,
-           'action' => 'process',
-           'json' => 1,
-           'page_size' => $page_size,
-           'sort_by' => $sort_by,
-           'fields' => 'code,product_name,brands,nutriscore_grade,nova_group,image_small_url,nutriments,categories,quantity'
-       );
-       
-       $url .= '?' . http_build_query($params); // Agregar parámetros a la URL
-       
-       // Realizar petición con cURL
-       $curl = curl_init();
-       curl_setopt($curl, CURLOPT_URL, $url);
-       curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-       curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-       curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-       curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-       curl_setopt($curl, CURLOPT_USERAGENT, 'AlimentosApp/1.0 (xampp-local-test)');
-       curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
-       
-       $result = curl_exec($curl);
-       $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-       $curl_error = curl_error($curl);
-       curl_close($curl);
+  if (!empty($search_term)):
+    // Validación
+    if ($search_term === '') {
+        echo "<div class='alert alert-warning'><i class='fas fa-exclamation-triangle'></i> Por favor, ingresa un término de búsqueda.</div>";
+    } else {
 
-       // Procesar respuesta
-       if ($result === false):
-           echo "<div class='alert alert-danger'>";
-           echo "<strong><i class='fas fa-exclamation-circle'></i> Error de conexión:</strong> ";
-           echo htmlspecialchars($curl_error);
-           echo "</div>";
-       elseif ($http_code != 200):
-           echo "<div class='alert alert-danger'>";
-           echo "<strong><i class='fas fa-exclamation-circle'></i> Error HTTP {$http_code}:</strong> ";
-           echo "La API de Open Food Facts no respondió correctamente.";
-           echo "</div>";
-       else:
-           $data = json_decode($result, true);
-           
-           if ($data === null):
-               $json_error = json_last_error_msg();
-               echo "<div class='alert alert-danger'>";
-               echo "<strong><i class='fas fa-exclamation-circle'></i> Error JSON:</strong> ";
-               echo htmlspecialchars($json_error);
-               echo "</div>";
-           elseif (isset($data['products']) && count($data['products']) > 0):
+        // Construir URL de la API de Open Food Facts (versión española)
+        $url = "https://es.openfoodfacts.org/cgi/search.pl";
+        $params = array(
+            'search_terms' => $search_term,
+            'search_simple' => 1,
+            'action' => 'process',
+            'json' => 1,
+            'page_size' => $page_size,
+            'sort_by' => $sort_by,
+            'fields' => 'code,product_name,brands,nutriscore_grade,nova_group,image_small_url,nutriments,categories,quantity'
+        );
+
+        $url .= '?' . http_build_query($params);
+
+        // Realizar petición con cURL
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_USERAGENT, 'AlimentosApp/1.0 (xampp-local-test)');
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
+
+        $result = curl_exec($curl);
+        $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $curl_error = curl_error($curl);
+        curl_close($curl);
+
+        // Procesar respuesta
+        if ($result === false):
+            echo "<div class='alert alert-danger'>";
+            echo "<strong><i class='fas fa-exclamation-circle'></i> Error de conexión:</strong> ";
+            echo htmlspecialchars($curl_error);
+            echo "</div>";
+        elseif ($http_code != 200):
+            echo "<div class='alert alert-danger'>";
+            echo "<strong><i class='fas fa-exclamation-circle'></i> Error HTTP {$http_code}:</strong> ";
+            echo "La API de Open Food Facts no respondió correctamente.";
+            echo "</div>";
+        else:
+            $data = json_decode($result, true);
+
+            if ($data === null):
+                $json_error = json_last_error_msg();
+                echo "<div class='alert alert-danger'>";
+                echo "<strong><i class='fas fa-exclamation-circle'></i> Error JSON:</strong> ";
+                echo htmlspecialchars($json_error);
+                echo "</div>";
+            elseif (isset($data['products']) && count($data['products']) > 0):
 ?>
+
            <div class="row">
             <div class="col-md-12">
               <div class="alert alert-success">
@@ -198,7 +214,7 @@ if (isset($_POST['submit'])):
 <?php
            else:
                echo "<div class='alert alert-info'>";
-               echo "<i class='fas fa-info-circle'></i> No se encontraron productos para '<strong>" . htmlspecialchars($_POST['searchTerm']) . "</strong>'.";
+               echo "<i class='fas fa-info-circle'></i> No se encontraron productos para '<strong>" . htmlspecialchars($search_term) . "</strong>'.";
                echo "<br><small>Intenta con otro término de búsqueda o el nombre de una marca conocida.</small>";
                echo "</div>";
                
